@@ -7,19 +7,41 @@
 //
 
 import UIKit
+//Bring in data source and delegate protocols for tableview
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+{
+    
+    @IBOutlet weak var myTableView: UITableView!
+    
+    var superHeros = ["batman", "Superman", "Aquaman", "Wonderwomen","The Flash", "Spiderman"]
+    var realName = ["Brue wanye","Clark kent","Arthur Curry","Diana","Barry Allen","Peter Paker"]
+    
 
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        //Set table view datasource and delegate to view controller
+        myTableView.dataSource = self
+        myTableView.delegate = self
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    //required for tableView protocol- Sends data to cell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        //create a cell var for tableView
+        let myCell = myTableView.dequeueReusableCellWithIdentifier("myCell", forIndexPath: indexPath)
+        //Sets properties of cell text
+        myCell.textLabel?.text = superHeros[indexPath.row]
+        myCell.detailTextLabel?.text = realName[indexPath.row]
+        
+        return myCell
     }
-
+    
+    //Required for tableview protocol- sets # of rows in the tableView
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return superHeros.count
+    }
 
 }
 
