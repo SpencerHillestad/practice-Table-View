@@ -25,6 +25,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         myTableView.delegate = self
     }
     
+    
+    @IBAction func addButtonTap(sender: UIBarButtonItem)
+    {
+        let myAlert = UIAlertController(title: "Add Super Hero", message: nil, preferredStyle: .Alert)
+        myAlert.addTextFieldWithConfigurationHandler{ (nameTextField) -> Void in
+            nameTextField.placeholder = "Add Super Hero Name!"
+        }
+        myAlert.addTextFieldWithConfigurationHandler{ (nameAilasField) -> Void in
+            nameAilasField.placeholder = "Add Ailas Hero Name!"
+        }
+        var cancelAction = UIAlertAction(title: "Canel", style: UIAlertActionStyle.Cancel, handler: nil)
+        myAlert.addAction(cancelAction)
+        
+         var addAction = UIAlertAction(title: "Add", style: .Default) { (addAction) -> Void in
+            let superHeroTF = myAlert.textFields![0] as UITextField
+            let ailasTF = myAlert.textFields![1] as UITextField
+            self.superHeros.append(superHeroTF.text!)
+            self.realName.append(ailasTF.text!)
+            self.myTableView.reloadData()
+        }
+        myAlert.addAction(addAction)
+        
+
+        //presents alertview
+        self.presentViewController(myAlert, animated: true, completion: nil)
+    }
+    
+    
     //required for tableView protocol- Sends data to cell
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
@@ -42,6 +70,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     {
         return superHeros.count
     }
+    
+    //allows you to delete a row from tableview
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if editingStyle == .Delete
+        {
+            superHeros.removeAtIndex(indexPath.row)
+            realName.removeAtIndex(indexPath.row)
+            //reload tableview data
+            myTableView.reloadData()
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
 
